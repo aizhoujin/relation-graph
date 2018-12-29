@@ -1,0 +1,1126 @@
+html, body {
+    font-family: "Microsoft YaHei UI";
+}
+
+/* 滚动条 */
+::-webkit-scrollbar-track-piece {
+    background-color: transparent;
+}
+
+::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+    background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background-color: hsla(220, 4%, 58%, .3);
+}
+
+.selectInputGroup {
+    display: flex;
+    margin-left: 200px;
+    width: 500px;
+}
+
+/* loading */
+.myLoading {
+    -webkit-animation: gif 1s linear infinite;
+    font-size: 30px !important;
+    z-index: 9999;
+    color: white;
+}
+
+.overall-loading {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    background: #000000;
+    z-index: 9998;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    opacity: 0.3;
+}
+
+.overall {
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+/*loading动画*/
+@-webkit-keyframes gif {
+    to {
+        -webkit-transform: rotate(0deg)
+    }
+    from {
+        -webkit-transform: rotate(360deg)
+    }
+}
+
+@keyframes gif {
+    0% {
+        transform: rotate(0deg)
+    }
+    100% {
+        transform: rotate(360deg)
+    }
+}
+
+/*op动画*/
+@-webkit-keyframes opacitygif {
+    to {
+        opacity: 0;
+    }
+    from {
+        opacity: 1;
+    }
+}
+
+@keyframes opacitygif {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+li {
+    list-style: none;
+}
+
+a {
+    color: black;
+    text-decoration: none;
+}
+
+/* 全局info, parimary 按钮样式 */
+.btn-info, .btn-primary {
+    background-color: #409EFF !important;
+    border-color: #409EFF !important;
+}
+
+#selectType {
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    height: 28px;
+    width: 72px;
+    border: none;
+}
+
+.search-input {
+    padding: 0;
+    position: relative;
+    display: flex;
+}
+
+.search-input span {
+    position: absolute;
+    top: 11px;
+    left: 5px;
+    z-index: 999;
+    color: #ddd;
+}
+
+.search-input input {
+    width: 300px !important;
+    border-top-left-radius: 1px !important;
+    border-bottom-left-radius: 1px !important;
+    margin-right: 0;
+}
+
+/* 头部 */
+.head {
+    min-width: 1024px;
+    margin: 0px auto;
+    height: 36px;
+    line-height: 36px;
+    display: flex;
+    margin-bottom: 2px;
+    box-shadow: 0 -2px 5px black;
+}
+
+.head .crumbs {
+    min-width: 400px;
+    max-width: 700px;
+    margin-left: 50px;
+    display: flex;
+}
+
+.head .crumbs li {
+    display: flex;
+}
+
+.head .search {
+    width: 500px;
+    display: flex;
+}
+
+@media screen and (min-width: 1200px) {
+    .head .search {
+        margin-left: 200px;
+        width: 500px;
+        display: flex;
+    }
+}
+
+@media screen and (min-width: 1500px) {
+    .head .search {
+        margin-left: 300px;
+        width: 500px;
+        display: flex;
+    }
+}
+
+/* 输入框组 */
+.input-group {
+    line-height: 36px !important;
+}
+
+.dropdown-toggle {
+    width: 80px;
+    height: 28px !important;
+    padding: 0;
+    text-align: center;
+}
+
+.dropdown-toggle .caret {
+    height: 7px;
+}
+
+.input-group-btn {
+    height: 28px !important;
+}
+
+.form-control {
+    margin-top: 4px;
+    height: 28px !important;
+    width: 280px !important;
+}
+
+.selectInput {
+    border-radius: 0px !important;
+}
+
+.searchButton {
+    height: 28px;
+    margin-top: 4px;
+    margin-left: 20px;
+    line-height: 18px;
+    padding-top: 4px;
+}
+
+/* head 搜索功能 */
+#showList, #cityList {
+    width: 280px !important;
+    position: absolute;
+    top: 32px;
+    left: 0;
+    border: 1px solid #DCDFE6;
+    padding: 0;
+    padding: 5px !important;
+    font-size: 12px;
+    z-index: 999;
+    background: white;
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+#showList li, #cityList li {
+    /*display: flex;*/
+    height: 28px;
+    line-height: 28px;
+    z-index: 1000;
+    opacity: 1;
+}
+
+/* 搜索框下拉列表 */
+#cityList div {
+    cursor: pointer;
+}
+
+.showList-project {
+    float: left;
+    width: 50px;
+    z-index: 999;
+}
+
+.showList-project span {
+    border: 1px solid #E4E7ED;
+    border-radius: 3px;
+    padding: 0 3px;
+    margin: 3px 0;
+    height: 20px;
+    line-height: 20px;
+    z-index: 999;
+}
+
+.showList-name {
+    float: left;
+    width: 140px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    z-index: 999;
+}
+
+.showList-id {
+    float: left;
+    text-indent: 5px;
+    width: 60px;
+    font-size: 10px;
+    color: #909399;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    z-index: 999;
+}
+
+/* 新增实体 */
+.head .other {
+    width: 100px;
+    text-align: center;
+}
+
+/* head新增实体按钮 */
+.addNode {
+    height: 28px;
+    line-height: 18px;
+    padding-top: 4px;
+    margin-top: -4px;
+    opacity: .8;
+}
+
+.container {
+    width: 100%;
+    background: white;
+}
+
+/* 图谱主体 */
+#MainCy {
+    width: 100%;
+    height: 100%;
+    /*border: 1px solid red;*/
+}
+
+/* 图谱底部 */
+.footer-List {
+    display: flex;
+    height: 28px;
+    justify-content: center;
+    font-size: 12px;
+    padding: 4px 0px;
+    z-index: 9000;
+    position: relative;
+}
+
+.footer-List li {
+    margin: 0 20px;
+    width: 68px;
+    list-style: none;
+    display: flex;
+    justify-content: space-around;
+    line-height: 20px;
+}
+
+/* 图谱底部 圆点 */
+.circle {
+    width: 12px;
+    height: 12px;
+    margin: 4px;
+    border-radius: 50%;
+}
+
+/* 图谱底部 color */
+.footer-List li:nth-of-type(2) .circle {
+    background: #F56C6C;
+}
+
+.footer-List li:nth-of-type(3) .circle {
+    background: #409EFF;
+}
+
+.footer-List li:nth-of-type(4) .circle {
+    background: #E6A23C;
+}
+
+.footer-List li:nth-of-type(5) .circle {
+    background: #67C23A;
+}
+
+.footer-List li:nth-of-type(1) .circle {
+    background: #666;
+}
+
+/* 图谱底部 count */
+.statistics {
+    position: absolute;
+    right: 20px;
+    top: 5px;
+}
+
+/* 图谱右侧选项 */
+.sidebar {
+    width: 48px;
+    height: 420px;
+    position: fixed;
+    right: 10px;
+    top: 20%;
+    z-index: 999;
+    border-radius: 4px;
+    border: 1px solid #DEDEDE;
+    background: white;
+    box-sizing: border-box;
+}
+
+.sidebar li {
+    width: 101%;
+    height: 60px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: black;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.sidebar li div i {
+    color: #909399;
+}
+
+.sidebar li:hover {
+    background: #409EFF;
+    color: #fff !important;
+}
+
+.sidebar li:hover > div > i {
+    background: #409EFF;
+    color: #fff !important;
+}
+
+.sidebar > .active {
+    background: #409EFF;
+    color: #fff !important;
+}
+
+.sidebar > .active > div > i {
+    background: #409EFF;
+    color: #fff !important;
+}
+
+/* 关系功能弹窗 */
+.relationInfer {
+    position: fixed;
+    top: 15%;
+    right: 60px;
+    width: 350px;
+    height: 500px;
+    background: #ffffff;
+    border: 1px solid #E4E7ED;
+    border-radius: 4px;
+    padding: 0px 10px 20px 10px;
+}
+
+.relationInfer-search input {
+    width: 195px;
+    padding: 3px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.relationInfer-search input::-webkit-input-placeholder {
+    color: #909399;
+}
+
+.relationInfer-search button {
+    padding: 3px 12px;
+    font-size: 14px;
+    margin-bottom: 3px;
+
+}
+
+.relationInfer-main p {
+    font-size: 12px;
+    color: #909399;
+}
+
+.relationInfer-li {
+    padding: 10px;
+    height: 390px;
+    max-height: 390px;
+    overflow-y: auto;
+    cursor: pointer;
+    overflow-x: hidden;
+    position: relative;
+}
+
+.relationInferLoading {
+    width: 327px;
+    height: 380px;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.relationInfer-li li {
+    margin: 5px 0;
+}
+
+.relationInfer-li li span:nth-of-type(1) {
+    font-size: 13px;
+    margin-right: 5px;
+}
+
+.relationInfer-li li span:nth-of-type(2) {
+    font-size: 13px;
+    margin-left: 5px;
+}
+
+/* 关系弹窗 无数据时*/
+.notData {
+    margin: 100px 0;
+    color: #909399;
+}
+
+/* 新增实体弹窗 */
+.addNodeDialog {
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+.addNodeDialog-main {
+    width: 500px;
+    margin: 10vh auto 0;
+    background: #ffffff;
+    border-radius: 4px;
+    padding: 5px 25px;
+}
+
+.addNodeDialog-main .addNodeDialog-table {
+    border: 1px solid #ddd;
+    border-top: none;
+    border-bottom: none;
+}
+
+.addNodeDialog-main .addNodeDialog-table li {
+    width: 100%;
+    height: 32px;
+    line-height: 32px;
+    border-bottom: 1px solid #E4E7ED;
+    display: flex;
+    padding: -1px 0;
+}
+
+.addNodeDialog-main .addNodeDialog-table li .title {
+    width: 120px;
+    border-right: 1px solid #ddd;
+    text-indent: 10px;
+}
+
+.addNodeDialog-main .addNodeDialog-table li .context {
+    text-indent: 10px;
+}
+
+.addNodeDialog-main .addNodeDialog-table li .context input {
+    width: 300px;
+    height: 98%;
+    border: none;
+    text-indent: 10px;
+    outline: medium;
+}
+
+/* 新增实体 国家选项 */
+.selectCity {
+    width: 328px;
+    border: 1px solid #ddd;
+    background: #ffffff;
+    padding-left: 0;
+    max-height: 300px;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+/* 点击节点详情弹窗 */
+.detail {
+    position: fixed;
+    top: 15%;
+    left: 20px;
+    width: 300px;
+    height: 500px;
+    background: #ffffff;
+    border: 1px solid #E4E7ED;
+    border-radius: 4px;
+    padding: 0px 10px 20px 10px;
+    overflow: hidden;
+    overflow-y: auto;
+    -webkit-animation: opacitygif 0.5s;
+}
+
+#detail-button, #DetailDiaLog .modal-dialog .modal-footer button {
+    width: 80%;
+    text-align: center;
+    margin: 10px 10%;
+    background: #409EFF;
+    color: white;
+    display: inline-block;
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+    border: 1px solid #dcdfe6;
+    -webkit-appearance: none;
+    box-sizing: border-box;
+    outline: none;
+    transition: .1s;
+    font-weight: 500;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    padding: 10px 20px;
+    font-size: 14px;
+    border-radius: 4px;
+}
+
+.modal-dialog .modal-footer button {
+    width: 120px !important;
+    margin-right: 20px !important;
+
+}
+
+/* 选项卡nav color */
+.nav-tabs li a {
+    color: black;
+}
+
+.detail .tab-content li {
+    display: flex;
+    height: 28px;
+    line-height: 28px;
+    border-bottom: 1px solid #ddd;
+}
+
+.detail .tab-content li .detail-list-name {
+    width: 235px;
+    border-right: 1px solid #ddd;
+    text-indent: 5px;
+}
+
+.detail .tab-content li .detail-list-relation {
+    width: 140px;
+    text-indent: 5px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.detail .tab-content li:nth-of-type(1) .detail-list-name, .detail .tab-content li:nth-of-type(1) .detail-list-relation {
+    font-weight: 800;
+}
+
+/* 大轮子 */
+#circle-nav {
+    position: fixed;
+    width: 300px;
+    height: 300px;
+    z-index: 10;
+    display: none;
+}
+
+/* 第一层 */
+.circle-nav-one-wrapper {
+    position: absolute;
+    top: 50px;
+    left: 50px;
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+    z-index: 20;
+    border-radius: 50%;
+}
+
+.circle-nav-one-wrapper .circle-nav-one-circle {
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -20%;
+    margin-left: -20%;
+    z-index: 999;
+    border-radius: 50%;
+    background: #FD485E;
+    color: #fff;
+    text-align: center;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.circle-nav-one-wrapper ul, .circle-nav-two ul {
+    width: 100%;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    position: relative
+}
+
+.circle-nav-one-wrapper ul li {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 50%;
+    height: 100px;
+    border: solid 1px #fff;
+    transform-origin: 100% 100%;
+    margin-left: -50%;
+    overflow: hidden;
+    font-size: 16px;
+    background-color: #404040;
+    cursor: pointer;
+}
+
+.circle-nav-one-wrapper ul li:hover {
+    background-color: #808080;
+}
+
+/* 第一层 */
+.circle-nav-one-wrapper ul li:nth-child(1) {
+    transform: rotate(0deg) skew(30deg);
+}
+
+.circle-nav-one-wrapper ul li:nth-child(2) {
+    transform: rotate(60deg) skew(30deg);
+}
+
+.circle-nav-one-wrapper ul li:nth-child(3) {
+    transform: rotate(120deg) skew(30deg);
+}
+
+.circle-nav-one-wrapper ul li:nth-child(4) {
+    transform: rotate(180deg) skew(30deg);
+}
+
+.circle-nav-one-wrapper ul li:nth-child(5) {
+    transform: rotate(240deg) skew(30deg);
+}
+
+.circle-nav-one-wrapper ul li:nth-child(6) {
+    transform: rotate(300deg) skew(30deg);
+}
+
+.circle-nav-one-wrapper ul li span.text {
+    color: #fff;
+    display: block;
+    width: 50px;
+    height: 20px;
+    position: absolute;
+    text-align: center;
+    font-size: 12px;
+}
+
+.circle-nav-one-wrapper ul li span.icon {
+    color: #fff;
+    display: block;
+    width: 35px;
+    height: 35px;
+    position: absolute;
+    border-radius: 50px;
+    text-align: center;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: center center;
+}
+
+.circle-nav-one-wrapper ul li:nth-child(1) span.text {
+    bottom: 2px;
+    right: 20px;
+    transform: skew(-30deg) translateX(-30%);
+}
+
+.circle-nav-one-wrapper ul li:nth-child(1) span.icon {
+    transform: skew(-30deg) translateX(-30%);
+    top: 40px;
+    right: 8px;
+    background-image: url("../img/mapaddrelation.png");
+}
+
+.circle-nav-one-wrapper ul li:nth-child(2) span.text {
+    bottom: 10px;
+    right: 0px;
+    transform: skew(-30deg) rotate(-60deg) translateY(-30%);
+}
+
+.circle-nav-one-wrapper ul li:nth-child(2) span.icon {
+    transform: skew(-30deg) rotate(-60deg) translateY(-30%);
+    bottom: 14px;
+    right: 20px;
+    background-image: url("../img/mapresume.png");
+}
+
+.circle-nav-one-wrapper ul li:nth-child(3) span.text {
+    bottom: 30px;
+    right: -12px;
+    transform: skew(-30deg) rotate(-120deg) translateX(20%);
+}
+
+.circle-nav-one-wrapper ul li:nth-child(3) span.icon {
+    background-image: url("../img/mapam.png");
+    bottom: 10px;
+    right: 28px;
+    transform: skew(-30deg) rotate(-120deg) translateX(20%);
+}
+
+.circle-nav-one-wrapper ul li:nth-child(4) span.text {
+    bottom: 41px;
+    right: -13px;
+    transform: skew(-30deg) rotate(180deg) translateY(10%) translateX(30%);
+}
+
+.circle-nav-one-wrapper ul li:nth-child(4) span.icon {
+    bottom: 5px;
+    right: 15px;
+    background-image: url("../img/remove.png");
+    transform: skew(-30deg) rotate(180deg) translateY(10%) translateX(30%);
+}
+
+.circle-nav-one-wrapper ul li:nth-child(5) span.text {
+    bottom: 28px;
+    right: 20px;
+    transform: skew(-30deg) rotate(120deg) translateY(40%);
+}
+
+.circle-nav-one-wrapper ul li:nth-child(5) span.icon {
+    bottom: 5px;
+    right: 8px;
+    background-image: url("../img/mapadd.png");
+    transform: skew(-30deg) rotate(120deg) translateY(40%);
+}
+
+.circle-nav-one-wrapper ul li:nth-child(6) span.text {
+    bottom: 1px;
+    right: 35px;
+    transform: skew(-30deg) rotate(60deg) translateY(20%) translateX(-30%);
+}
+
+.circle-nav-one-wrapper ul li:nth-child(6) span.icon {
+    bottom: 12px;
+    right: 8px;
+    background-image: url("../img/mapgather.png");
+    transform: skew(-30deg) rotate(60deg) translateY(20%) translateX(-30%);
+}
+
+/* 第二层 */
+.circle-nav-two {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 15;
+    border-radius: 50%;
+    display: none;
+}
+
+.circle-nav-two ul li {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 50%;
+    height: 150px;
+    border: solid 1px #fff;
+    transform-origin: 100% 100%;
+    margin-left: -50%;
+    overflow: hidden;
+    font-size: 16px;
+    /* background-color: #6f8a9c; */
+    background-color: #5a5a5d;
+    cursor: pointer;
+}
+
+.circle-nav-two ul li:hover {
+    background-color: #808080;
+}
+
+.circle-nav-two ul li:nth-child(1) {
+    transform: rotate(195deg) skew(60deg);
+}
+
+.circle-nav-two ul li:nth-child(2) {
+    transform: rotate(225deg) skew(60deg);
+}
+
+.circle-nav-two ul li:nth-child(3) {
+    transform: rotate(255deg) skew(60deg);
+}
+
+.circle-nav-two ul li:nth-child(4) {
+    transform: rotate(285deg) skew(60deg);
+}
+
+.circle-nav-two ul li:nth-child(5) {
+    transform: rotate(315deg) skew(60deg);
+}
+
+/* 文字部分 */
+.circle-nav-two ul li span.text {
+    color: #fff;
+    display: block;
+    width: 50px;
+    height: 20px;
+    position: absolute;
+    text-align: center;
+    font-size: 12px;
+}
+
+.circle-nav-two ul li:nth-child(1) span.text {
+    bottom: 11px;
+    right: 50px;
+    transform: skew(-60deg) rotate(165deg) translateY(78%);
+}
+
+.circle-nav-two ul li:nth-child(2) span.text {
+    bottom: 15px;
+    right: 40px;
+    transform: skew(-60deg) rotate(135deg) translateY(65%);
+}
+
+.circle-nav-two ul li:nth-child(3) span.text {
+    bottom: 16px;
+    right: 40px;
+    transform: skew(-60deg) rotate(105deg) translateY(45%);
+}
+
+.circle-nav-two ul li:nth-child(4) span.text {
+    bottom: 25px;
+    right: 22px;
+    transform: skew(-60deg) rotate(75deg) translateY(65%);
+}
+
+.circle-nav-two ul li:nth-child(5) span.text {
+    bottom: 25px;
+    right: 25px;
+    transform: skew(-60deg) rotate(45deg) translateY(45%);
+}
+
+.modal-header, .modal-footer {
+    border-bottom: none;
+    border-top: none;
+}
+
+/* 查看详情的弹窗 */
+#DetailDiaLog {
+
+}
+
+/* 详情弹窗 */
+.DetailDialog-project {
+    width: 570px;
+}
+
+.DetailDialog-project .DetailDialog-li {
+    display: flex;
+    border-bottom: 1px solid #ddd;
+    line-height: 28px;
+    height: 28px;
+}
+
+.DetailDialog-project .DetailDialog-li .DetailDialog-li-name {
+    width: 200px;
+    border-right: 1px solid #ddd;
+    text-indent: 20px;
+}
+
+.DetailDialog-project .DetailDialog-li .DetailDialog-li-context {
+    width: 365px;
+    text-indent: 20px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.borderBottomLi {
+    border-top: 1px solid #E4E7ED !important;
+}
+
+/* 修改关系 or 删除关系*/
+.linksAction {
+    border: 1px solid #ddd;
+    width: 150px;
+    height: 300px;
+    position: absolute;
+    top: 100px;
+    left: 10px;
+    padding: 4px;
+    border-radius: 4px;
+    background: #fff;
+}
+
+/* 修改关系 or 删除关系*/
+.linksActionInput {
+    width: 140px;
+    border-radius: 2px;
+    border: 1px solid #F2F6FC;
+    text-indent: 5px;
+}
+
+.linksActionSelect {
+    width: 100%;
+    height: 210px;
+    padding: 3px 0;
+    overflow-y: auto;
+    /*display: flex;*/
+}
+
+.linksActionSelect span {
+    display: inline-block;
+    border: 1px solid #F2F6FC;
+    padding: 2px 5px;
+    margin: 2px 4px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.linksActionFooter {
+    border-top: 1px solid #dddddd;
+    padding-top: 7px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.linksActionFooter button {
+    background: none;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 3px 10px;
+}
+
+/* 新增关系*/
+#addDiaLog .addRelation-box {
+    display: flex;
+    justify-content: space-between;
+    min-height: 200px;
+}
+
+#addDiaLog .addRelationButton {
+    width: 158px;
+    border-radius: 4px;
+    height: 28px;
+    line-height: 14px;
+}
+
+#addDiaLog .addRelationButton div {
+    margin-top: -2px;
+}
+
+#addDiaLog .addRelationButton span {
+    display: inline-block;
+    width: 120px;
+    text-align: left;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+#addDiaLog .addDialog-relation input {
+    width: 150px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    height: 28px;
+    text-indent: 5px;
+}
+
+#addDiaLog li {
+    text-indent: 5px;
+    padding: 4px 10px;
+}
+
+#addDiaLog .dropdown-menu {
+    max-height: 150px;
+    overflow-y: auto;
+}
+
+#addDiaLog .addDialog-relation .dropdown-menu {
+    width: 150px;
+    height: 150px;
+    white-space: normal;
+}
+
+#addDiaLog .addDialog-relation .dropdown-menu span {
+    display: inline-block;
+    border: 1px solid #F2F6FC;
+    padding: 2px 5px;
+    margin: 2px 4px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.Myhide {
+    display: none !important;
+}
+
+/* 图谱样式切换 */
+.selectLayout {
+    width: 50px;
+    position: absolute;
+    top: 37px;
+    left: 0px;
+    border: 1px solid #dddddd;
+    background: #D1D0D1;
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+.selectLayout li {
+    width: 100%;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+}
+
+.selectLayout li img {
+    width: 28px;
+    height: 28px;
+}
+
+/* 选中状态 布局*/
+.layoutActive {
+    background: #777;
+    color: #ffffff;
+}
+
+.selectLayout .selectLayout-title {
+    width: 100%;
+    height: 24px;
+    color: #ffffff;
+    background: #525051;
+    line-height: 24px;
+    font-size: 12px;
+    text-align: center;
+    border-top: 1px solid #dddddd;
+}
+
+.selectLayout i {
+    font-size: 20px;
+}

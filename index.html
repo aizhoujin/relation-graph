@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Access-Control-Allow-Origin" content="*">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+    <title>全局图谱</title>
+    <!-- Bootstrap core CSS -->
+    <link href="./plugin/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/common.css">
+    <link rel="stylesheet" href="./css/icon.css">
+</head>
+
+<body>
+<!-- 全屏loading -->
+<div class="overall-loading overall">
+    <div class="iconfont icon-loading myLoading"></div>
+</div>
+<!-- 页面 head -->
+<div class="head">
+    <!-- head左侧 -->
+    <div class="crumbs">
+        <li>
+            <a href="http://10.16.1.22:8080/web/client/Knowledge.action">首页</a>
+            <span> &nbsp; > &nbsp;</span>
+        </li>
+        <li>
+            全局图谱
+        </li>
+    </div>
+    <!-- head搜索 -->
+    <div class="search">
+        <div style="display: flex">
+            <div class="input-group" style="height: 28px">
+                <div class="input-group-btn">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        <span class="buttonText">全部</span>
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#" onclick="shows($(this).text())">全部</a></li>
+                        <li><a href="#" onclick="shows($(this).text())">项目</a></li>
+                        <li><a href="#" onclick="shows($(this).text())">企业</a></li>
+                        <li><a href="#" onclick="shows($(this).text())">重点人</a></li>
+                        <li><a href="#" onclick="shows($(this).text())">事件</a></li>
+                    </ul>
+                </div><!-- /btn-group -->
+                <div style="position: relative">
+                    <input type="text" placeholder="请输入关键词查询" list="cityList" class="selectInput form-control"
+                           name="cityName" id="cityName"
+                           value="" onchange="searchHeadChange()" onfocus="fuzzySearch.call(this)"/>
+                    <div class="picture_click dropDowns" style=""></div>
+                    <div id="cityList" class="selectList" hidden>
+                        <div id="001">北京</div>
+                        <div id="002">上海</div>
+                    </div>
+                </div>
+            </div><!-- /input-group -->
+            <div class="btn-group" role="group" style="margin-left: 10px">
+                <button type="button" class="btn btn-default searchButton" onclick="headSearch()">搜索</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- head新增实体 -->
+    <div class="other">
+        <div class="btn-group" role="group" style="margin-left: 10px">
+            <button type="button" class="btn btn-info addNode" onclick="addNode()">新增实体</button>
+            <!--<button type="button" class="btn btn-info addNode" onclick="select()">选择实体</button>-->
+        </div>
+    </div>
+</div>
+
+<!-- 图谱 -->
+<div class="container" id="main">
+    <div id="MainCy"></div>
+    <div class="sidebar">
+        <div class="glyphicon glyphicon-triangle-left foldLeft"
+             style="position: fixed; top: 23%; right: 55px;font-size: 20px; color: #0f0f0f !important;display: none"
+             onclick="fold(1)"></div>
+
+        <li id="TrRelation" onclick="toggleRelation()">
+            <div>
+                <i class="iconfont icon-guanxituiyan"></i>
+            </div>
+            <p>关系</p>
+
+        </li>
+
+        <li id="TrTxt" onclick="toggleText()">
+            <div>
+                <i class="glyphicon glyphicon-font"></i>
+            </div>
+            <p>文字</p>
+        </li>
+        <li id="TrEnlarge" onclick="maoScale(1)">
+            <div>
+                <i class="glyphicon glyphicon-zoom-in"></i>
+            </div>
+            <p>放大</p>
+        </li>
+        <li id="TrReduce" onclick="maoScale(2)">
+            <div>
+                <i class="glyphicon glyphicon-zoom-out"></i>
+            </div>
+            <p>缩小</p>
+        </li>
+        <li id="TrFullScreen" onclick="changeScreen(this)">
+            <div>
+                <i class="glyphicon glyphicon-resize-full"></i>
+            </div>
+            <p>全屏</p>
+        </li>
+        <li id="TrRefresh">
+            <div>
+                <i class="glyphicon glyphicon-refresh"></i>
+            </div>
+            <p>刷新</p>
+        </li>
+        <li id="TrSave">
+            <div>
+                <i class="glyphicon glyphicon-save"></i>
+            </div>
+            <p>导出</p>
+        </li>
+    </div>
+
+    <div class="selectLayout" id="selectLayout">
+        <div class="selectLayout-title">布局</div>
+        <li id="central" class="selectLayout-layout layoutActive" onclick="layoutChange(0)">
+            <div>
+                <i class="iconfont icon-510tongji_guanxitu"></i>
+            </div>
+            <!--<p>central</p>-->
+        </li>
+        <li id="circle" class="selectLayout-layout" onclick="layoutChange(1)">
+            <div>
+                <!--<i class="glyphicon glyphicon-font"></i>-->
+                <!--<img src="./img/传播分析：圆环视图4-01%20(2).png" alt="">-->
+                <i class="iconfont icon-chuanbofenxiyuanhuanshitu-"></i>
+
+            </div>
+            <!--<p>circle</p>-->
+        </li>
+        <li id="breadthfirst" class="selectLayout-layout" onclick="layoutChange(2)">
+            <div>
+                <i class="iconfont icon-fenzhi"></i>
+            </div>
+            <!--<p>breadthfirst</p>-->
+        </li>
+        <div class="selectLayout-title">节点</div>
+        <li id="Nodecircle" class="selectLayout-node layoutActive" onclick="layoutNodeChange(0)">
+            <div>
+                <i class="iconfont icon-shixinyuan"></i>
+                <!--<img src="./img/实心圆.png" alt="">-->
+
+            </div>
+            <!--<p>breadthfirst</p>-->
+        </li>
+        <li id="Nodepolygon" class="selectLayout-node" onclick="layoutNodeChange(1)">
+            <div>
+                <i class="iconfont icon-duobianxing"></i>
+                <!--<img src="./img/多边形.png" alt="">-->
+
+            </div>
+            <!--<p>breadthfirst</p>-->
+        </li>
+    </div>
+</div>
+
+<!-- 底部注释-->
+<div class="panel-footer footer-List">
+    <li id="currentNode" hidden>
+        <div class="circle"></div>
+        <span>当前节点</span>
+    </li>
+    <li>
+        <div class="circle"></div>
+        <span>项目</span>
+    </li>
+    <li>
+        <div class="circle"></div>
+        <span>企业</span>
+    </li>
+    <li>
+        <div class="circle"></div>
+        <span>重点人</span>
+    </li>
+    <li>
+        <div class="circle"></div>
+        <span>事件</span>
+    </li>
+    <div class="statistics">
+        <span>节点数：</span>
+        <span id="NodeCount"></span> &nbsp;&nbsp;&nbsp;
+        <span>关系数：</span>
+        <span id="linkCount"></span>
+    </div>
+</div>
+
+<!-- 新增实体弹窗 -->
+<div class="addNodeDialog" hidden>
+    <div class="addNodeDialog-main">
+        <div style="display: flex;justify-content: space-between;">
+            <h4 class="addNodeDialog-title">新增实体</h4>
+            <h4 class="glyphicon glyphicon-remove" style="font-weight: 400;cursor: pointer;"
+                onclick="$('.addNodeDialog').hide()"></h4>
+        </div>
+        <div>
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active" onclick="addNodeType(1)"><a href="#home" aria-controls="home"
+                                                                                   role="tab"
+                                                                                   data-toggle="tab">项目</a></li>
+                <li role="presentation" onclick="addNodeType(2)">
+                    <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">企业</a>
+                </li>
+                <li role="presentation" onclick="addNodeType(3)"><a href="#messages" aria-controls="messages" role="tab"
+                                                                    data-toggle="tab">重点人</a></li>
+                <li role="presentation" onclick="addNodeType(4)"><a href="#settings" aria-controls="settings" role="tab"
+                                                                    data-toggle="tab">事件</a>
+                </li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="home">
+                    <div class="addNodeDialog-table">
+                        <li>
+                            <div class="title">项目名称</div>
+                            <div class="context" style="position: relative">
+                                <input type="text" class='addProjectName' id="addNode-Name" value=""
+                                       onblur="addNodeName()">
+                                <span class="glyphicon glyphicon-info-sign exist"
+                                      style="font-size: 12px;color: #F56C6C;position: absolute; right: -5px;top: 0px;height: 32px;line-height: 32px;display: none;">已存在</span>
+                                <span class="glyphicon glyphicon-chevron-right exist"
+                                      style="font-size: 12px;position: absolute; right: -35px;top: 0px;height: 32px;line-height: 32px;display: none;"></span>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title">项目类型</div>
+                            <div class="context"><input type="text" class='addProjectType'></div>
+                        </li>
+                        <li>
+                            <div class="title">投资方式</div>
+                            <div class="context"><input type="text" class='addProjectInvestPattern'></div>
+                        </li>
+                        <li>
+                            <div class="title">所属行业</div>
+                            <div class="context"><input type="text" class='addProjectIndustry'></div>
+                        </li>
+                        <li>
+                            <div class="title">项目地点</div>
+                            <div class="context"><input type="text" class='addProjectLocation'></div>
+                        </li>
+                        <li>
+                            <div class="title">国家</div>
+                            <div class="context" style="position: relative;">
+                                <input id="cityInputProject" type="text" class="addProjectState"
+                                       onkeyup="selectCityEvent(1)" onclick="selectCityEvent(1)">
+                                <ul class="selectCity" style="position: absolute;" hidden>
+                                    <li class="selectCity-list">北京</li>
+                                    <li class="selectCity-list">上海</li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title">项目有效期</div>
+                            <div class="context"><input type="text" class='addProjectValidDate'></div>
+                        </li>
+                        <li>
+                            <div class="title">开始时间</div>
+                            <div class="context"><input type="text" class='addProjectBeginDate'></div>
+                        </li>
+                        <li>
+                            <div class="title">结束时间</div>
+                            <div class="context"><input type="text" class='addProjectEndDate'></div>
+                        </li>
+                        <li>
+                            <div class="title">项目承接单位</div>
+                            <div class="context"><input type="text" class='addProjectCompanyName'></div>
+                        </li>
+                        <li>
+                            <div class="title">项目总金额</div>
+                            <div class="context"><input type="text" class='addProjectTotalSumPlan'></div>
+                        </li>
+                        <li>
+                            <div class="title">项目标注</div>
+                            <div class="context"><input type="text" class='addProjectLabel'></div>
+                        </li>
+                        <li>
+                            <div class="title">项目内容描述</div>
+                            <div class="context"><input type="text" class='addProjectDescription'></div>
+                        </li>
+
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="profile">
+                    <div class="addNodeDialog-table">
+                        <li>
+                            <div class="title">企业名称</div>
+                            <div class="context" style="position: relative">
+                                <input type="text" class="addCompanyName" id="addNode-Name-company" value=""
+                                       onblur="addNodeName()">
+                                <span class="glyphicon glyphicon-info-sign exist"
+                                      style="font-size: 12px;color: #F56C6C;position: absolute; right: -5px;top: 0px;height: 32px;line-height: 32px;display: none;">已存在</span>
+                                <span class="glyphicon glyphicon-chevron-right exist"
+                                      style="font-size: 12px;position: absolute; right: -35px;top: 0px;height: 32px;line-height: 32px;display: none;"></span>
+                            </div>
+                        </li>
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="messages">
+                    <div class="addNodeDialog-table">
+                        <li>
+                            <div class="title">姓名</div>
+                            <div class="context" style="position: relative">
+                                <input type="text" id="addNode-Name-person" class="addPersonName" value=""
+                                       onblur="addNodeName()">
+                                <span class="glyphicon glyphicon-info-sign exist"
+                                      style="font-size: 12px;color: #F56C6C;position: absolute; right: -5px;top: 0px;height: 32px;line-height: 32px;display: none;">已存在</span>
+                                <span class="glyphicon glyphicon-chevron-right exist"
+                                      style="font-size: 12px;position: absolute; right: -35px;top: 0px;height: 32px;line-height: 32px;display: none;"></span>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title">简介</div>
+                            <div class="context"><input type="text" class="addPersonPeopleDescription"></div>
+                        </li>
+                        <li>
+                            <div class="title">企业名称</div>
+                            <div class="context"><input type="text" class="addPersonCompanyName"></div>
+                        </li>
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="settings">
+                    <div class="addNodeDialog-table">
+                        <li>
+                            <div class="title">事件名</div>
+                            <div class="context" style="position: relative">
+                                <input type="text" id="addNode-Name-event" class="addEventName" value=""
+                                       onblur="addNodeName()">
+                                <span class="glyphicon glyphicon-info-sign exist"
+                                      style="font-size: 12px;color: #F56C6C;position: absolute; right: -5px;top: 0px;height: 32px;line-height: 32px;display: none;">已存在</span>
+                                <span class="glyphicon glyphicon-chevron-right exist"
+                                      style="font-size: 12px;position: absolute; right: -35px;top: 0px;height: 32px;line-height: 32px;display: none;"></span>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title">描述</div>
+                            <div class="context"><input type="text" class="addEventDescription"></div>
+                        </li>
+                        <li>
+                            <div class="title">国家</div>
+                            <div class="context" style="position: relative;">
+                                <input id="cityInputEvent" type="text" class="addEventState"
+                                       onkeyup="selectCityEvent(2)" onclick="selectCityEvent(2)">
+                                <ul class="selectCity" style="position: absolute;" hidden>
+                                    <li class="selectCity-list">北京</li>
+                                    <li class="selectCity-list">上海</li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title">发生时间</div>
+                            <div class="context"><input type="text" class="addEventBeginDate"></div>
+                        </li>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal"
+                        onclick="$('.addNodeDialog').hide();">关闭
+                </button>
+                <button hidden type="button" onclick="addNodeEvent()" class="btn btn-primary">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 点击节点 详情-->
+<div class="detail" hidden>
+    <div style="display: flex;justify-content: space-between;">
+        <h4></h4>
+        <h4 class="glyphicon glyphicon-remove" style="font-weight: 400;cursor: pointer;margin-bottom: -10px"
+            onclick="$('.detail').hide()"></h4>
+    </div>
+    <div class="detail-name">巴基斯坦35Mw水电投资xxxxxxxxxxxxx</div>
+    <div class="detail-ID">
+        <span>ID:</span>
+        <span class="detail-ID-context">123123123</span>
+    </div>
+    <div class="detail-industry" hidden>
+        <span>所属行业:</span>
+        <span class="detail-ID-context">石油</span>
+    </div>
+    <div class="detail-time" hidden>
+        <span>项目有效期:</span>
+        <span class="detail-ID-context">12个月</span>
+    </div>
+    <div id="detail-button-box">
+        <button id="detail-button">
+            <a href="" target="_blank"></a>
+            查看图谱
+        </button>
+    </div>
+    <div class="detail-relation-count">
+        共有x个关系实体
+    </div>
+    <div>
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active Myhide"><a href="#detailHome" aria-controls="home" role="tab"
+                                                             data-toggle="tab">项目</a></li>
+            <li role="presentation"><a href="#detailProfile" aria-controls="profile" role="tab" data-toggle="tab">企业</a>
+            </li>
+            <li role="presentation"><a href="#detailMessages" aria-controls="messages" role="tab"
+                                       data-toggle="tab">重点人</a></li>
+            <li role="presentation"><a href="#detailSettings" aria-controls="settings" role="tab"
+                                       data-toggle="tab">事件</a></li>
+        </ul>
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="detailHome">
+                <div class="detail-project">
+                    <li>
+                        <div class="detail-list-name">
+                            项目名称
+                        </div>
+                        <div class="detail-list-relation">
+                            关系
+                        </div>
+                    </li>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="detailProfile">
+                <div class="detail-compay">
+                    <li>
+                        <div class="detail-list-name">
+                            公司名称
+                        </div>
+                        <div class="detail-list-relation">
+                            关系
+                        </div>
+                    </li>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="detailMessages">
+                <div class="detail-person">
+                    <li>
+                        <div class="detail-list-name">
+                            重点人名称
+                        </div>
+                        <div class="detail-list-relation">
+                            关系
+                        </div>
+                    </li>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="detailSettings">
+                <div class="detail-event">
+                    <li>
+                        <div class="detail-list-name">
+                            事件名称
+                        </div>
+                        <div class="detail-list-relation">
+                            关系
+                        </div>
+                    </li>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- 大轮子 -->
+<div id="circle-nav" circle>
+    <div class="circle-nav-one-wrapper">
+        <div class="circle-nav-one-circle">人物</div>
+        <ul id="circle-nav-one-ul">
+            <li class="circle-nav-one-remove"><span class="icon"></span><span class="text">新增关系</span></li>
+            <li class="state" id="aaaaaa"><span class="icon"></span><span class="text">基本信息</span></li>
+            <li class="organization"><span class="icon"></span><span class="text">修改</span></li>
+            <li class="circle-nav-one-add"><span class="icon"></span><span class="text">删除</span></li>
+            <li class="circle-nav-one-gather"><span class="icon"></span><span class="text">扩散</span></li>
+            <li class="resume"><span class="icon"></span><span class="text">聚集</span></li>
+        </ul>
+    </div>
+    <div class="circle-nav-two">
+        <ul>
+            <li><span class="text">项目</span></li>
+            <li><span class="text">企业</span></li>
+            <li><span class="text">重点人</span></li>
+            <li><span class="text">事件</span></li>
+            <li><span class="text">所有</span></li>
+        </ul>
+    </div>
+</div>
+
+<!-- 提示弹框 -->
+<div class="modal fade" id="myDiaLog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h5 class="modal-title" id="myModalLabel">提示</h5>
+            </div>
+            <div class="modal-body">删除成功</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button hidden type="button" id="confirm-button" class="btn btn-primary">确定</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+<div class="modal fade" id="addRelationDiaLog" tabindex="-1" role="dialog" aria-labelledby="addRelationDiaLog"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h5 class="modal-title" id="addRelationDiaLogLabel">提示</h5>
+            </div>
+            <div class="modal-body">节点添加成功，是否为新增节点添加关系?</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button hidden type="button" id="addRelationDiaLog-button" class="btn btn-primary">确定</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<!-- 错误提示 -->
+<div id="errMessage" class="errMessage alert alert-danger fade in" style="z-index: 9999;position: fixed;top: 20px;left: 40%; width: 400px;
+}" hidden>
+    <a href="#" class="close" data-dismiss="alert">
+        &times;
+    </a>
+    <i class="glyphicon glyphicon-info-sign"></i>
+    <span>aaaa</span>
+</div>
+
+<!-- 详情弹框 -->
+<div class="modal fade" id="DetailDiaLog" tabindex="-1" role="dialog" aria-labelledby="DetailDiaLog" aria-hidden="true"
+     style="margin-top: 15vh">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="DetailDiaLog-Label">基本信息</h4>
+            </div>
+            <div class="modal-body">
+                <div class="DetailDialog-project">
+                    <li class="DetailDialog-li">
+                        <div class="DetailDialog-li-name">
+                            项目名称
+                        </div>
+                        <div class="DetailDialog-li-context">
+
+                        </div>
+                    </li>
+                </div>
+            </div>
+            <div class="modal-footer" hidden>
+                <button id="DetailDiaLog-button">查看图谱</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<!-- 线条右键 修改关系 or 删除关系 -->
+<div class="linksAction" hidden>
+    <div style="font-size: 16px;text-indent: 5px;">修改关系</div>
+    <input class="linksActionInput" type="text" placeholder="创建新关系">
+    <div class="linksActionSelect">
+        <span>BOO</span>
+        <span>BOOT</span>
+        <span>BOT</span>
+        <span>BT</span>
+        <span>DB</span>
+        <span>EP</span>
+        <span>EPC</span>
+        <span>EPC总承包</span>
+        <span>保运</span>
+        <span>共现</span>
+        <span>其他</span>
+        <span>参与</span>
+        <span>合作</span>
+        <span>合建</span>
+        <span>合资</span>
+        <span>并购</span>
+        <span>开发</span>
+        <span>总包</span>
+        <span>总承包</span>
+        <span>承包</span>
+        <span>承建</span>
+        <span>承接</span>
+        <span>投建</span>
+        <span>投资</span>
+        <span>控股</span>
+        <span>援助</span>
+        <span>援建</span>
+        <span>收购</span>
+        <span>融资</span>
+        <span>资助</span>
+    </div>
+    <div class="linksActionFooter">
+        <button id="linksActionDel">删除</button>
+        <button id="linksActionSubmit" style="margin-left: 10px;background: #337ab7; color: white;">确定</button>
+    </div>
+
+</div>
+
+<!-- 新增关系 -->
+<div class="modal fade" id="addDiaLog" tabindex="-1" role="dialog" aria-labelledby="addDiaLog" aria-hidden="true"
+     style="margin-top: 15vh">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="addDiaLog-Label">新增关系</h4>
+            </div>
+            <div class="modal-body">
+                <div class="addRelation-box">
+                    <div class="addDialog-startNode">
+                        <h5>开始节点</h5>
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-default addRelationButton" data-toggle="dropdown">
+                                <span class="buttonText">全部</span>
+                                <div class="caret"></div>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>全部</li>
+                            </ul>
+                        </div><!-- /btn-group -->
+                    </div>
+                    <div class="addDialog-relation" style="position: relative">
+                        <h5>关系</h5>
+                        <!--<input type="text">-->
+                        <div class="input-group-btn">
+                            <input type="text" class="btn btn-default addRelationButton" placeholder="请输入关系"
+                                   data-toggle="dropdown">
+                            </input>
+                            <ul class="dropdown-menu" role="menu">
+                                <span>BOO</span>
+                                <span>BOOT</span>
+                                <span>BOT</span>
+                                <span>BT</span>
+                                <span>DB</span>
+                                <span>EP</span>
+                                <span>EPC</span>
+                                <span>EPC总承包</span>
+                                <span>保运</span>
+                                <span>共现</span>
+                                <span>其他</span>
+                                <span>参与</span>
+                                <span>合作</span>
+                                <span>合建</span>
+                                <span>合资</span>
+                                <span>并购</span>
+                                <span>开发</span>
+                                <span>总包</span>
+                                <span>总承包</span>
+                                <span>承包</span>
+                                <span>承建</span>
+                                <span>承接</span>
+                                <span>投建</span>
+                                <span>投资</span>
+                                <span>控股</span>
+                                <span>援助</span>
+                                <span>援建</span>
+                                <span>收购</span>
+                                <span>融资</span>
+                                <span>资助</span>
+                            </ul>
+                        </div><!-- /btn-group -->
+                    </div>
+                    <div class="addDialog-endNode">
+                        <h5>结束节点</h5>
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-default addRelationButton" data-toggle="dropdown">
+                                <span class="buttonText">请选择节点</span>
+                                <div class="caret"></div>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>请选择节点</li>
+                            </ul>
+                        </div><!-- /btn-group -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="addDiaLog-button" class="btn btn-info">确定</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<!-- 关系功能弹框 -->
+<div class="relationInfer" hidden>
+    <div style="display: flex;justify-content: space-between; position: relative">
+        <!--<i class="iconfont icon-shouqi" style="position: absolute; top: 0px; left: -35px;font-size: 20px; color: #409EFF !important;" onclick="fold(2)"></i>-->
+        <h4></h4>
+        <h4 class="glyphicon glyphicon-remove" style="font-weight: 400;cursor: pointer;"
+            onclick="$('.relationInfer').hide();if(toggleRelationFlag == true){$('.foldLeft').show();}"></h4>
+    </div>
+    <div class="relationInfer-search">
+        <input type="text" id="filtrateAllNodeInput" onkeyup="filtrateAllNode()" placeholder="请输入实体名称">
+        <button onclick="relationInfer(1)" id="filBtn" class="btn btn-info" disabled>找关系</button>
+        <button onclick="relationInfer(2)" id="filBtn2" class="btn btn-info" disabled>加入</button>
+    </div>
+    <div class="relationInfer-main">
+        <p>提示：以下列表包含站内全部实体</p>
+        <div class="relationInfer-li">
+            <div class="overall-loading relationInferLoading">
+                <div class="iconfont icon-loading myLoading"></div>
+            </div>
+            <li class="notData">数据加载中...</li>
+        </div>
+    </div>
+</div>
+
+
+<script src="./plugin/jquery.min.js"></script>
+<script src="./plugin/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+<script src="./plugin/cytoscape.js"></script>
+<script src="./plugin/d3.v4.js"></script>
+<!--<script src="./js/common.js"></script>-->
+<script src="js/tupu-person.js"></script>
+</body>
+<script>
+    $('#errMessage').hide();
+    var containerHeight;
+
+    // 获取屏幕高度
+    function resizeChange() {
+        containerHeight = $(window).height() - 65;
+        document.getElementById('main').style.height = containerHeight + 'px';
+        document.getElementsByClassName('selectLayout')[0].style.height = containerHeight + 'px';
+    }
+
+    window.addEventListener('load', resizeChange());
+
+    var searchType = '全部';
+
+    // head搜索选项的切换；
+    function shows(a) {
+        console.log(a);
+        $('.search .buttonText').text(a);
+        searchType = a;
+        updataShowList(_rootData);
+    }
+
+    document.querySelector('#circle-nav').oncontextmenu = function (e) {
+        return false;
+    };
+    $('.showList-li').click(function () {
+        console.log(1112)
+        $(this).css('background', '#eee').siblings().css('background', '');
+    });
+
+
+    initSearchInput();
+
+    function fuzzySearch(e) {
+        var that = this;
+        //获取列表的ID
+        var listId = $(this).attr("list");
+        //列表
+        var list = $('#' + listId + ' li .showList-name');
+        //列表项数组  包列表项的id、内容、元素
+        var listArr = [];
+        //遍历列表，将列表信息存入listArr中
+        $.each(list, function (index, item) {
+            var obj = {
+                'eleId': item.getAttribute('id'),
+                'eleName': item.innerHTML,
+                'ele': item,
+                'par': item.parentNode,
+                'type': item.type
+            };
+            listArr.push(obj);
+        })
+
+        //current用来记录当前元素的索引值
+        var current = 0;
+        //showList为列表中和所输入的字符串匹配的项
+        var showList = [];
+        //为文本框绑定键盘引起事件
+        $(this).keyup(function (e) {
+            //如果输入空格自动删除
+            this.value = this.value.replace(' ', '');
+            //列表框显示
+            $('#' + listId).show();
+            if (e.keyCode == 38) {
+                //up
+                console.log('up');
+                current--;
+                if (current <= 0) {
+                    current = 0;
+                }
+                console.log(current);
+            } else if (e.keyCode == 40) {
+                //down
+                console.log('down');
+                current++;
+                if (current >= showList.length) {
+                    current = showList.length - 1;
+                }
+                console.log(current);
+
+            } else if (e.keyCode == 13) {
+                //enter
+                console.log('enter');
+                //如果按下回车，将此列表项的内容填充到文本框中
+                $(that).val(showList[current].innerHTML);
+                //下拉框隐藏
+                $('#' + listId).hide();
+            } else {
+                //other
+                //文本框中输入的字符串
+                var searchVal = $(that).val();
+                showList = [];
+                //将和所输入的字符串匹配的项存入showList
+                //将匹配项显示，不匹配项隐藏
+                $.each(listArr, function (index, item) {
+                    if (item.eleName.indexOf(searchVal) != -1) {
+                        // item.ele.style.display = "block";
+                        item.par.style.display = 'block';
+                        showList.push(item.ele);
+                    } else {
+                        item.par.style.display = 'none'
+                        // item.ele.style.display = 'none';
+                    }
+                })
+                current = 0;
+            }
+            //设置当前项的背景色及位置
+            $.each(showList, function (index, item) {
+                if (index == current) {
+                    // item.parentNode.style.background = "#eee";
+                    // $('#' + listId).scrollTop(item.offsetTop);
+                } else {
+                    item.parentNode.style.background = "";
+                }
+            })
+            //设置下拉框的高度
+            //212为列表框的最大高度
+            // if (212 > $('#' + listId + ' div').eq(0).height() * showList.length) {
+            //     $('#' + listId).height($('#' + listId + ' div').eq(0).height() * showList.length);
+            // } else {
+            //     $('#' + listId).height(212);
+            // }
+        })
+    }
+
+
+    function initSearchInput() {
+        //给下拉箭头绑定点击事件  点击下拉箭头显示/隐藏对应的列表
+        //输入框的类名为selectInput
+        //下拉箭头的类名为picture_click、dropDowns
+        //下拉列表的类名为selectList
+        //为列表中的每一项绑定单击事件
+        $('#cityList li').click(function () {
+            console.log(1)
+            //文本框为选中项的值
+            $(this).parent().parent().find('.selectInput').val($(this).html());
+            //下拉框隐藏
+            $(this).parent().hide();
+        });
+
+        for (var i = 0; i < $('.picture_click').length; i++) {
+            $('.picture_click').eq(i).click(function () {
+                $(this).parent().find('.selectList').toggle();
+            })
+        }
+        //为列表中的每一项绑定鼠标经过事件
+        $('.selectList li div').mouseenter(function () {
+            $(this).css("background", "#eee").siblings().css("background", "");
+        });
+
+        //点击下拉框外部的时候使下拉框隐藏
+        var dropDowns = document.getElementsByClassName('dropDowns');
+        var selectList = document.getElementsByClassName('selectList');
+        var selectLi = document.getElementsByClassName('showList-li');
+        document.body.onclick = function (e) {
+            e = e || window.event;
+            var target = e.target || e.srcElement;
+            for (var i = 0; i < dropDowns.length; i++) {
+                if (target != dropDowns[i] && target != selectList[i] && target != selectList[i]) {
+                    selectList[i].style.display = 'none';
+                    $('.selectCity').hide();
+                }
+            }
+            $('.circle-nav').hide();
+        }
+    }
+</script>
+</html>
